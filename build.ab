@@ -1,0 +1,22 @@
+let pages = ["header", "core", "army_selection", "missions", "footer"]
+
+fun file(page) {
+    return "src/markdown/{page}.md"
+}
+
+fun files() {
+    let r = []
+    for page in pages {
+        r = r + [file(page)]
+    }
+    return r
+}
+
+main {
+    const files = files()
+
+    $ pandoc -o index.html -s --toc {files} $ failed {
+        echo("Error running pandoc")
+        exit(1)
+    }
+}
