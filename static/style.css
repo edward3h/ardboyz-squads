@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700;1,400;1,700&family=Ultra&display=swap');
+
+:root {
+    color-scheme: light dark; 
+
+    --main-bg-color: light-dark(#fff, #111122);
+    --main-color: light-dark(#111122, #eeeeee);
+    --soft-bg-color: light-dark(#eee, #222233);
+    --soft-color: light-dark(#333, #ccc);
+    --mid-color: #999;
+    --hover-color: #007bff;
+}
+
+/* Position the TOC as a fixed sidebar on the left */
+#TOC {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--soft-bg-color);
+  border-right: 1px solid var(--mid-color);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Style the TOC lists and links */
+#TOC ul {
+  list-style-type: none;
+  padding-left: 15px;
+}
+
+#TOC > ul {
+  padding-left: 0;
+}
+
+#TOC a {
+  text-decoration: none;
+  color: var(--soft-color);
+}
+
+#TOC a:hover {
+  color: var(--hover-color);
+}
+
+/* Shift the main content area right to clear the sidebar */
+body {
+  margin-left: 200px; /* Width of sidebar + some spacing */
+  padding: 30px;
+  max-width: 800px;
+  background-color: var(--main-bg-color);
+  color: var(--main-color);
+}
+
+/* Responsiveness: Move TOC to top on small screens */
+@media (max-width: 768px) {
+  #TOC {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--mid-color);
+    margin-bottom: 20px;
+  }
+  body {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+.header {
+    /* max-width: 600px; */
+    h1, h2 {
+        text-align: center;
+    }
+    h2 {
+        font-family: "Caladea", serif;
+        font-weight: 200;
+        color: var(--soft-color);
+    }
+    h1 {
+        font-family: "Ultra", serif;
+        font-weight: 400;
+        font-size: 3rem;
+    }
+}
+
+blockquote {
+    margin: 
+1em 0 1em 1.7em;
+    padding-left: 1em;
+    border-left: 
+2px solid var(--mid-color);
+    color: var(--soft-color);
+}
+
+dl {
+    margin-left: 20px;
+}
+dt {
+    font-weight: 600;
+    margin-top: 0.5em;
+}
+dd {
+    margin-left: 20px;
+}

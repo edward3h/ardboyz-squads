@@ -25,9 +25,9 @@ All missions use Reserves, Seize the Initiative.
 
 - 5 VP per objective
 
-### Moving Intel
-
-At the end of each battle round for each objective you control you may move the objective marker 3” in any direction. The objective marker cannot move through enemy models, cannot end overlapping any terrain or be moved off the battlefield. If both players are eligible to move an objective, the player who went second moves their ones first.
+> ### Moving Intel
+>
+> At the end of each battle round, for each objective you control, you may move the objective marker 3” in any direction. The objective marker cannot move through enemy models, end overlapping any terrain or be moved off the battlefield. If both players are eligible to move an objective, the player who went second moves their ones first.
 
 ## 4. Confrontation
 

@@ -15,7 +15,7 @@ fun files() {
 main {
     const files = files()
 
-    $ pandoc -o index.html -s --toc {files} $ failed {
+    $ pandoc -o index.html -c static/style.css -s --toc --toc-depth=2 {files} $ failed {
         echo("Error running pandoc")
         exit(1)
     }
