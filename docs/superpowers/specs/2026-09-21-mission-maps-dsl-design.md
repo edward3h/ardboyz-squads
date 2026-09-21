@@ -44,7 +44,7 @@ missions:
 
 Notes:
 
-- Units are inches throughout, matching the prose in `missions.md` (e.g. "44 inch table", "5 inch deployment zone"). The renderer converts to mm internally for the SVG viewBox, matching the existing hand-drawn file's convention (`viewBox` in mm).
+- Units are inches throughout, matching the prose in `missions.md` (e.g. "44 inch table", "5 inch deployment zone"). The renderer uses these numbers directly as the SVG's `viewBox` units, with no conversion to mm — these maps are representative diagrams, not scaled physical drawings, so there's no need to model a real-world unit like the hand-drawn original did.
 - `side: a` / `side: b` replace "home"/"enemy" terminology for deployment zones, because home/enemy are player-relative (they swap depending who's reading), while the physical map is not. Each side's colour is looked up from the top-level `colors` map by `side`, rather than hardcoded in the renderer. `maps/missions.yaml` is initially set to the existing hand-drawn file's values, `a` → `#afc6e9` (light blue), `b` → `#e9afaf` (light red), and can be edited in the YAML without touching code.
 - Only rectangular deployment zones are supported in this pass. Corner/diagonal (polygon) zones are out of scope — if a future mission needs one, extend the schema then.
 - Deployment zone rects are assumed flush against one edge of the table (as in the existing map, where the zone spans the table's full width and touches the top/bottom edge). A zone's "depth" (the dimension the renderer labels, e.g. `5"`) is its extent perpendicular to whichever table edge it touches — free-floating zones not touching an edge are not a supported case in this pass.
@@ -69,11 +69,11 @@ The five mission keys, matching `missions.md`'s headings 1:1 in the same order:
 
 The Node version is pinned via `mise` (`.mise.toml`, `node = "22"`) — this is the first tool requirement the repo has had, so it's now declared explicitly rather than relying on whatever `node` happens to be on `PATH`.
 
-Unlike the existing hand-drawn file (a fixed US-Letter print page, `width="11in" height="8.5in"`, with the table scaled to fit inside it), each generated SVG's `viewBox` — and its `width`/`height` — scale to the shared table size plus a fixed margin (enough to fit the dimension arrows and labels, e.g. 15mm on each side that has a label). This is a deliberate deviation from the original: these maps are shown via `<img>` in a web page, not printed to a fixed page. Since table size is shared, every mission's SVG ends up the same overall size, which also keeps them visually consistent side by side.
+Unlike the existing hand-drawn file (a fixed US-Letter print page, `width="11in" height="8.5in"`, with the table scaled to fit inside it), each generated SVG's `viewBox` — and its `width`/`height` — scale to the shared table size plus a fixed margin (enough to fit the dimension arrows and labels, e.g. 0.6 units on each side that has a label). This is a deliberate deviation from the original: these maps are shown via `<img>` in a web page, not printed to a fixed page. Since table size is shared, every mission's SVG ends up the same overall size, which also keeps them visually consistent side by side.
 
 For each mission entry:
 
-1. Compute the SVG `viewBox` (mm) as the shared table's width/height (inches → mm) plus the fixed margin described above (the same for every mission).
+1. Compute the SVG `viewBox` as the shared table's width/height plus the fixed margin described above (the same for every mission).
 2. Draw the table outline (white rect, black stroke).
 3. Draw each deployment zone rect, coloured by looking up its `side` in the top-level `colors` map.
 4. Draw dimension arrows + inch labels for table width, table height, and each deployment zone's depth, matching the existing file's marker/arrow/font conventions (Arial, small font-size, `ConcaveTriangle` arrowheads).

@@ -1,4 +1,4 @@
-import { inchesToMm, computeViewBox, deploymentZoneEdge } from './geometry.js';
+import { computeViewBox, deploymentZoneEdge } from './geometry.js';
 import {
   arrowMarkerDefs,
   svgRect,
@@ -7,53 +7,51 @@ import {
   verticalDimension,
 } from './svg-template.js';
 
-const MARGIN_MM = 15;
-const OBJECTIVE_RADIUS_IN = 3;
+// Visual proportions for a representative diagram, not real-world
+// measurements — units match the table/zone data ("inches" in name only).
+const MARGIN = 0.6;
+const DIMENSION_OFFSET = 0.3;
+const OBJECTIVE_RADIUS = 3;
 
 export function renderMissionSvg(mission, table, colors) {
-  const viewBox = computeViewBox(table, MARGIN_MM);
+  const viewBox = computeViewBox(table, MARGIN);
   const parts = [arrowMarkerDefs()];
 
-  parts.push(
-    svgRect({ x: 0, y: 0, width: viewBox.tableWidthMm, height: viewBox.tableHeightMm, fill: '#ffffff' }),
-  );
+  parts.push(svgRect({ x: 0, y: 0, width: table.width, height: table.height, fill: '#ffffff' }));
 
   for (const zone of mission.deployment) {
-    parts.push(svgRect({ ...rectToMm(zone.rect), fill: colors[zone.side] }));
+    parts.push(svgRect({ ...zone.rect, fill: colors[zone.side] }));
   }
 
   parts.push(
-    horizontalDimension({ x1: 0, x2: viewBox.tableWidthMm, y: -8, label: `${table.width}"` }),
+    horizontalDimension({
+      x1: 0,
+      x2: table.width,
+      y: -DIMENSION_OFFSET,
+      label: `${table.width}"`,
+    }),
   );
   parts.push(
     verticalDimension({
       y1: 0,
-      y2: viewBox.tableHeightMm,
-      x: viewBox.tableWidthMm + 8,
+      y2: table.height,
+      x: table.width + DIMENSION_OFFSET,
       label: `${table.height}"`,
     }),
   );
 
   for (const zone of mission.deployment) {
-    parts.push(deploymentDimension(zone.rect, table, viewBox));
+    parts.push(deploymentDimension(zone.rect, table));
   }
 
   for (const objective of mission.objectives ?? []) {
-    parts.push(
-      svgCircle({
-        cx: inchesToMm(objective.x),
-        cy: inchesToMm(objective.y),
-        r: inchesToMm(OBJECTIVE_RADIUS_IN),
-      }),
-    );
+    parts.push(svgCircle({ cx: objective.x, cy: objective.y, r: OBJECTIVE_RADIUS }));
   }
 
-  const minX = viewBox.minX;
-  const minY = viewBox.minY;
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" ` +
-    `viewBox="${minX} ${minY} ${viewBox.width} ${viewBox.height}" ` +
-    `width="${viewBox.width}mm" height="${viewBox.height}mm">${parts.join('')}</svg>`
+    `viewBox="${viewBox.minX} ${viewBox.minY} ${viewBox.width} ${viewBox.height}" ` +
+    `width="${viewBox.width}in" height="${viewBox.height}in">${parts.join('')}</svg>`
   );
 }
 
@@ -61,27 +59,17 @@ export function renderMissionSvg(mission, table, colors) {
 // table-height label on the right), left/right-edge zone labels go below
 // the table (mirroring the table-width label above) — so a zone's own
 // dimension line never overlaps the table's width/height dimension lines.
-function deploymentDimension(rect, table, viewBox) {
+function deploymentDimension(rect, table) {
   const { edge, depth } = deploymentZoneEdge(rect, table);
-  const rectMm = rectToMm(rect);
   const label = `${depth}"`;
 
   if (edge === 'top' || edge === 'bottom') {
-    return verticalDimension({ y1: rectMm.y, y2: rectMm.y + rectMm.height, x: -8, label });
+    return verticalDimension({ y1: rect.y, y2: rect.y + rect.height, x: -DIMENSION_OFFSET, label });
   }
   return horizontalDimension({
-    x1: rectMm.x,
-    x2: rectMm.x + rectMm.width,
-    y: viewBox.tableHeightMm + 8,
+    x1: rect.x,
+    x2: rect.x + rect.width,
+    y: table.height + DIMENSION_OFFSET,
     label,
   });
-}
-
-function rectToMm(rect) {
-  return {
-    x: inchesToMm(rect.x),
-    y: inchesToMm(rect.y),
-    width: inchesToMm(rect.width),
-    height: inchesToMm(rect.height),
-  };
 }

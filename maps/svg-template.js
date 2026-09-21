@@ -1,7 +1,11 @@
 const ARROW_MARKER_ID = 'dim-arrow';
-const DIMENSION_FONT_SIZE = 2.1167;
-const DIMENSION_STROKE_WIDTH = 0.125;
-const SHAPE_STROKE_WIDTH = 0.25;
+// These are visual proportions, not real-world measurements — the diagram
+// is representative, not to a physical scale, so we work in the same
+// "inches" units as the table/zone data instead of converting to mm.
+const DIMENSION_FONT_SIZE = 0.08;
+const DIMENSION_STROKE_WIDTH = 0.005;
+const SHAPE_STROKE_WIDTH = 0.01;
+const DIMENSION_TEXT_GAP = 0.06;
 
 // Same "ConcaveTriangle" marker shape as static/squads_layout_inkscape.svg,
 // so generated maps use the same arrowhead as the original hand-drawn one.
@@ -41,7 +45,7 @@ export function horizontalDimension({ x1, x2, y, label }) {
     `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#000000" ` +
     `stroke-width="${DIMENSION_STROKE_WIDTH}" marker-start="url(#${ARROW_MARKER_ID})" ` +
     `marker-end="url(#${ARROW_MARKER_ID})" />`;
-  return line + dimensionText((x1 + x2) / 2, y - 1.5, label, false);
+  return line + dimensionText((x1 + x2) / 2, y - DIMENSION_TEXT_GAP, label, false);
 }
 
 export function verticalDimension({ y1, y2, x, label }) {
@@ -49,5 +53,5 @@ export function verticalDimension({ y1, y2, x, label }) {
     `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="#000000" ` +
     `stroke-width="${DIMENSION_STROKE_WIDTH}" marker-start="url(#${ARROW_MARKER_ID})" ` +
     `marker-end="url(#${ARROW_MARKER_ID})" />`;
-  return line + dimensionText(x - 2, (y1 + y2) / 2, label, true);
+  return line + dimensionText(x - DIMENSION_TEXT_GAP, (y1 + y2) / 2, label, true);
 }
