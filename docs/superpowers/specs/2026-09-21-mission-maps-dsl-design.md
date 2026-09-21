@@ -67,6 +67,8 @@ The five mission keys, matching `missions.md`'s headings 1:1 in the same order:
 
 `maps/render.js`, a Node script using `js-yaml` (new dependency — first `package.json` in this repo) to parse `maps/missions.yaml`, and hand-built SVG string templates (no SVG library needed — the shapes involved are just rects, lines with arrow markers, circles, and text).
 
+The Node version is pinned via `mise` (`.mise.toml`, `node = "22"`) — this is the first tool requirement the repo has had, so it's now declared explicitly rather than relying on whatever `node` happens to be on `PATH`.
+
 Unlike the existing hand-drawn file (a fixed US-Letter print page, `width="11in" height="8.5in"`, with the table scaled to fit inside it), each generated SVG's `viewBox` — and its `width`/`height` — scale to the shared table size plus a fixed margin (enough to fit the dimension arrows and labels, e.g. 15mm on each side that has a label). This is a deliberate deviation from the original: these maps are shown via `<img>` in a web page, not printed to a fixed page. Since table size is shared, every mission's SVG ends up the same overall size, which also keeps them visually consistent side by side.
 
 For each mission entry:
