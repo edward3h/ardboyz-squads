@@ -1,0 +1,72 @@
+# Mission map data. Table size and colors are shared across all
+# missions (see docs/superpowers/specs/2026-09-21-mission-maps-dsl-design.md).
+# Deployment zones and objectives are placeholder/illustrative — adjust freely.
+
+table:
+  width: 44 # inches
+  height: 30 # inches
+
+colors:
+  a: "#afc6e9" # light blue, matches the original hand-drawn map
+  b: "#e9afaf" # light red, matches the original hand-drawn map
+
+missions:
+  point-assault:
+    title: Point Assault
+    deployment:
+      - side: a
+        rect: { x: 0, y: 0, width: 44, height: 5 }
+      - side: b
+        rect: { x: 0, y: 25, width: 44, height: 5 }
+    objectives:
+      - { x: 22, y: 5 }
+      - { x: 22, y: 15 }
+      - { x: 22, y: 25 }
+
+  forward-push:
+    title: Forward Push
+    deployment:
+      - side: a
+        rect: { x: 0, y: 0, width: 44, height: 5 }
+      - side: b
+        rect: { x: 0, y: 25, width: 44, height: 5 }
+    objectives:
+      - { x: 22, y: 5 }
+      - { x: 22, y: 15 }
+      - { x: 22, y: 25 }
+
+  retrieval:
+    title: Retrieval
+    deployment:
+      - side: a
+        rect: { x: 0, y: 0, width: 44, height: 5 }
+      - side: b
+        rect: { x: 0, y: 25, width: 44, height: 5 }
+    objectives:
+      - { x: 11, y: 15 }
+      - { x: 22, y: 15 }
+      - { x: 33, y: 15 }
+
+  confrontation:
+    title: Confrontation
+    deployment:
+      - side: a
+        rect: { x: 0, y: 0, width: 44, height: 5 }
+      - side: b
+        rect: { x: 0, y: 25, width: 44, height: 5 }
+    objectives:
+      - { x: 22, y: 5 }
+      - { x: 22, y: 25 }
+
+  conquest:
+    title: Conquest
+    deployment:
+      - side: a
+        rect: { x: 0, y: 0, width: 44, height: 5 }
+      - side: b
+        rect: { x: 0, y: 25, width: 44, height: 5 }
+    objectives:
+      - { x: 11, y: 10 }
+      - { x: 33, y: 10 }
+      - { x: 11, y: 20 }
+      - { x: 33, y: 20 }
