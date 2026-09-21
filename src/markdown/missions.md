@@ -1,11 +1,12 @@
 # Missions
 
 Board size _TBD_.
-Maps _WIP_.
 
 All missions use Reserves, Seize the Initiative.
 
 ## 1. Point Assault
+
+<img src="static/maps/point-assault.svg" alt="Point Assault map" />
 
 - 2VP for home objective
 - 3VP per neutral objective
@@ -17,11 +18,15 @@ All missions use Reserves, Seize the Initiative.
 
 ## 2. Forward Push
 
+<img src="static/maps/forward-push.svg" alt="Forward Push map" />
+
 - 2VP per home objective
 - 4VP per neutral objective
 - 7VP per enemy objective
 
 ## 3. Retrieval
+
+<img src="static/maps/retrieval.svg" alt="Retrieval map" />
 
 - 5 VP per objective
 
@@ -31,10 +36,14 @@ All missions use Reserves, Seize the Initiative.
 
 ## 4. Confrontation
 
+<img src="static/maps/confrontation.svg" alt="Confrontation map" />
+
 - 2VP per home objective
 - 4VP per enemy objective
 
 ## 5. Conquest
+
+<img src="static/maps/conquest.svg" alt="Conquest map" />
 
 - 3VP per objective
   - +4VP if 3 or more controlled, or +8VP if enemy objective is one of them

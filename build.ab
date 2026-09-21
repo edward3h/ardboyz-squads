@@ -13,6 +13,8 @@ fun files() {
 }
 
 main {
+    // Render maps before pandoc: missions.md references the generated SVGs,
+    // so they must exist in static/maps/ before pandoc runs.
     $ mise exec -- node maps/render.js $ failed {
         echo("Error rendering mission maps")
         exit(1)
