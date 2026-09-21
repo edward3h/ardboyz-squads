@@ -13,7 +13,7 @@ fun files() {
 }
 
 main {
-    $ node maps/render.js $ failed {
+    $ mise exec -- node maps/render.js $ failed {
         echo("Error rendering mission maps")
         exit(1)
     }
