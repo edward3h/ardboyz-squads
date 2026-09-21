@@ -1,0 +1,12 @@
+{
+  "name": "ardboyz-squads-maps",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:maps": "node maps/render.js",
+    "test": "node --test maps/"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
