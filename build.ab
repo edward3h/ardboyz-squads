@@ -13,6 +13,11 @@ fun files() {
 }
 
 main {
+    $ node maps/render.js $ failed {
+        echo("Error rendering mission maps")
+        exit(1)
+    }
+
     const files = files()
 
     $ pandoc -o index.html -c static/style.css -s --toc --toc-depth=2 {files} $ failed {
