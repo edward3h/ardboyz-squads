@@ -26,7 +26,7 @@
 | `maps/svg-template.js` | Pure functions: SVG string builders for rects, circles, text, dimension arrows, and the arrowhead marker `<defs>` |
 | `maps/mission-svg.js` | Combines `geometry.js` + `svg-template.js` into one full mission SVG document string |
 | `maps/render.js` | Entry point: reads `missions.yaml`, validates, loops missions, writes `static/maps/<key>.svg` |
-| `build.ab` | Modify: run `node maps/render.js` before the pandoc step |
+| `build.ab` | Modify: run `mise exec -- node maps/render.js` before the pandoc step |
 | `src/markdown/missions.md` | Modify: add an `<img>` under each mission heading, drop the "Maps _WIP_." line |
 
 `geometry.js` and `validate.js` are pure (no file I/O, no SVG string concerns) so they're the ones worth unit testing in isolation — this is where bugs in the actual logic (wrong mm conversion, wrong edge detection, a validation gap) would hide. `svg-template.js` and `mission-svg.js` are string assembly with no interesting branching to unit test; they're verified by running the renderer and looking at the output, per the spec's testing section. `render.js` is I/O glue, also verified by running it.
@@ -853,7 +853,7 @@ Change it to:
 
 ```
 main {
-    $ node maps/render.js $ failed {
+    $ mise exec -- node maps/render.js $ failed {
         echo("Error rendering mission maps")
         exit(1)
     }
@@ -864,6 +864,8 @@ main {
 ```
 
 (Everything after that line is unchanged.)
+
+Use `mise exec --` here, not bare `node` — plain `node` on `PATH` may resolve to a different, unpinned version (this bit an earlier pass of this task: plain `node` resolved to v18 while `.mise.toml` pins v22). `mise exec --` guarantees the render step actually runs under the pinned version, consistent with how Tasks 1-9 invoke Node throughout this plan.
 
 - [ ] **Step 2: Run the full build**
 
