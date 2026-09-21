@@ -6,7 +6,7 @@
 
 **Architecture:** A single `maps/missions.yaml` holds a shared table size, a shared side-colour map, and per-mission deployment zones (rectangles) and objective markers (plain points). `maps/render.js` reads and validates that file, then for each mission builds an SVG string (table outline, coloured deployment zones, derived dimension arrows/labels, objective circles) via small pure helper modules, and writes it to `static/maps/<mission-key>.svg`. `build.ab` runs the renderer before pandoc. Pure logic (unit conversion, viewBox sizing, deployment-edge/depth derivation, data validation) is unit-tested with Node's built-in test runner; SVG string assembly and the end-to-end build are verified by running the script and eyeballing output, per the spec's testing section.
 
-**Tech Stack:** Node 22 (pinned via `.mise.toml`, already committed), `js-yaml` for parsing, Node's built-in `node:test`/`node:assert` for unit tests (no new test framework dependency), ESM modules (`"type": "module"`).
+**Tech Stack:** Node 22 (pinned via `.mise.toml`, already committed), `js-yaml` for parsing, Node's built-in `node:test`/`node:assert` for unit tests (no new test framework dependency), ESM modules (`"type": "module"`), `amber` (Homebrew-installed) to execute the existing `build.ab` script.
 
 **Spec:** `docs/superpowers/specs/2026-09-21-mission-maps-dsl-design.md` — read this first for the full rationale behind every decision below (side a/b naming, unlabelled fixed-radius objectives, shared table size, colours in YAML, viewBox-scales-to-table, etc). This plan implements that spec; it doesn't re-decide anything from it.
 
@@ -865,7 +865,7 @@ main {
 
 - [ ] **Step 2: Run the full build**
 
-Run: `mise exec -- ab build.ab` (or however `build.ab` is normally invoked in this repo — check for an `ab` binary on `PATH` first with `which ab`; if it's not installed, note that to the user rather than guessing at a substitute)
+Run: `amber run build.ab` (the `amber` CLI, installed via Homebrew, is what executes `.ab` scripts in this repo)
 Expected: regenerates `static/maps/*.svg`, then regenerates `index.html`, no errors.
 
 - [ ] **Step 3: Commit**
@@ -939,7 +939,7 @@ Then add the matching `<img>` tag right after each of the other four mission hea
 
 - [ ] **Step 2: Rebuild the site**
 
-Run: `mise exec -- ab build.ab`
+Run: `amber run build.ab`
 Expected: `index.html` regenerates with no errors.
 
 - [ ] **Step 3: Visually verify in a browser**
