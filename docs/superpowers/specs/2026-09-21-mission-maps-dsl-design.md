@@ -25,6 +25,10 @@ table:
   width: <number>              # inches
   height: <number>             # inches
 
+colors:
+  a: <string>                   # CSS color for side a's deployment zone
+  b: <string>                   # CSS color for side b's deployment zone
+
 missions:
   <mission-key>:                # e.g. point-assault — used for the output filename
     title: <string>              # display name, informational only
@@ -41,7 +45,7 @@ missions:
 Notes:
 
 - Units are inches throughout, matching the prose in `missions.md` (e.g. "44 inch table", "5 inch deployment zone"). The renderer converts to mm internally for the SVG viewBox, matching the existing hand-drawn file's convention (`viewBox` in mm).
-- `side: a` / `side: b` replace "home"/"enemy" terminology for deployment zones, because home/enemy are player-relative (they swap depending who's reading), while the physical map is not. `side` maps to fixed colours taken from the existing hand-drawn file: `a` → `#afc6e9` (light blue), `b` → `#e9afaf` (light red).
+- `side: a` / `side: b` replace "home"/"enemy" terminology for deployment zones, because home/enemy are player-relative (they swap depending who's reading), while the physical map is not. Each side's colour is looked up from the top-level `colors` map by `side`, rather than hardcoded in the renderer. `maps/missions.yaml` is initially set to the existing hand-drawn file's values, `a` → `#afc6e9` (light blue), `b` → `#e9afaf` (light red), and can be edited in the YAML without touching code.
 - Only rectangular deployment zones are supported in this pass. Corner/diagonal (polygon) zones are out of scope — if a future mission needs one, extend the schema then.
 - Deployment zone rects are assumed flush against one edge of the table (as in the existing map, where the zone spans the table's full width and touches the top/bottom edge). A zone's "depth" (the dimension the renderer labels, e.g. `5"`) is its extent perpendicular to whichever table edge it touches — free-floating zones not touching an edge are not a supported case in this pass.
 - Objectives are plain `{x, y}` position markers, no label or role. The renderer draws every objective as a circle of one fixed radius: **3 inches**, a new convention (the existing hand-drawn file has no objective markers to inherit from — this schema introduces them).
@@ -69,14 +73,14 @@ For each mission entry:
 
 1. Compute the SVG `viewBox` (mm) as the shared table's width/height (inches → mm) plus the fixed margin described above (the same for every mission).
 2. Draw the table outline (white rect, black stroke).
-3. Draw each deployment zone rect, coloured by `side` per the colour mapping above.
+3. Draw each deployment zone rect, coloured by looking up its `side` in the top-level `colors` map.
 4. Draw dimension arrows + inch labels for table width, table height, and each deployment zone's depth, matching the existing file's marker/arrow/font conventions (Arial, small font-size, `ConcaveTriangle` arrowheads).
 5. Draw each objective as a circle at the fixed 3" radius, no text.
 6. Write the result to `static/maps/<mission-key>.svg`.
 
 ### Validation / error handling
 
-Before rendering, the script validates the top-level `table` (has `width`/`height`) and that each mission entry has at least one `deployment` zone. A missing/malformed field throws and exits non-zero — the build should fail loudly rather than emit a broken or blank SVG. This matches `build.ab`'s existing pattern of exiting on pandoc failure.
+Before rendering, the script validates the top-level `table` (has `width`/`height`), the top-level `colors` map (has an entry for every `side` used anywhere in `missions`), and that each mission entry has at least one `deployment` zone. A missing/malformed field throws and exits non-zero — the build should fail loudly rather than emit a broken or blank SVG. This matches `build.ab`'s existing pattern of exiting on pandoc failure.
 
 ## Build integration
 
@@ -101,7 +105,7 @@ Generated SVGs land in `static/maps/<mission-key>.svg` and are committed to the 
 
 - Client-side/in-browser rendering (build-time only for now).
 - Polygon or corner/diagonal deployment zones (rectangles only).
-- Per-objective marker styling (radius, colour, labels).
+- Per-objective marker styling (radius, colour, labels) — objectives stay a single fixed style, unlike deployment zone colours which are configurable.
 - Per-mission table size overrides (table size is shared across all missions in this pass).
 
 ## Testing / verification
