@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build:maps": "node maps/render.js",
-    "test": "node --test maps/"
+    "test": "node --test"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"

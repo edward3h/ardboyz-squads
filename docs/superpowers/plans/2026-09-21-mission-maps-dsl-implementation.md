@@ -55,13 +55,15 @@ Expected: prints a `v22.x.x` version (matches `.mise.toml`'s `node = "22"`, alre
   "type": "module",
   "scripts": {
     "build:maps": "node maps/render.js",
-    "test": "node --test maps/"
+    "test": "node --test"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"
   }
 }
 ```
+
+`test` runs `node --test` with no path argument (relying on the test runner's default recursive discovery of `*.test.js` files) rather than `node --test maps/`. On this project's pinned Node 22, passing a bare directory path to `--test` is treated as the script to execute rather than a directory to search, and fails with `MODULE_NOT_FOUND`; `node --test` alone correctly discovers every `*.test.js` file project-wide. Individual file paths (e.g. `node --test maps/geometry.test.js`, used in later tasks) are unaffected — this only bit the bare-directory form.
 
 - [ ] **Step 3: Install dependencies**
 
