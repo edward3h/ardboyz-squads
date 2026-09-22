@@ -1,4 +1,4 @@
-import { deploymentZoneEdge } from './geometry.js';
+import { rectWithinTable } from './geometry.js';
 
 export function validateData(data) {
   if (!data || typeof data !== 'object') {
@@ -46,10 +46,8 @@ function validateMissions(missions, table) {
         throw new Error(`Mission "${key}" has a deployment zone with invalid side "${zone.side}"`);
       }
       requireRect(zone.rect, `Mission "${key}" deployment zone`);
-      try {
-        deploymentZoneEdge(zone.rect, table);
-      } catch (cause) {
-        throw new Error(`Mission "${key}" has an invalid deployment zone: ${cause.message}`);
+      if (!rectWithinTable(zone.rect, table)) {
+        throw new Error(`Mission "${key}" has a deployment zone that extends outside the table`);
       }
     }
     for (const objective of mission.objectives ?? []) {

@@ -19,21 +19,26 @@ missions:
       - side: b
         rect: { x: 0, y: 25, width: 44, height: 5 }
     objectives:
-      - { x: 22, y: 5 }
+      - { x: 22, y: 3 }
       - { x: 22, y: 15 }
-      - { x: 22, y: 25 }
+      - { x: 22, y: 27 }
+      - { x: 11, y: 15 }
+      - { x: 33, y: 15 }
 
   forward-push:
     title: Forward Push
     deployment:
       - side: a
-        rect: { x: 0, y: 0, width: 44, height: 5 }
+        rect: { x: 0, y: 0, width: 11, height: 30 }
       - side: b
-        rect: { x: 0, y: 25, width: 44, height: 5 }
+        rect: { x: 33, y: 0, width: 11, height: 30 }
     objectives:
-      - { x: 22, y: 5 }
-      - { x: 22, y: 15 }
-      - { x: 22, y: 25 }
+      - { x: 10, y: 6 }
+      - { x: 22, y: 6 }
+      - { x: 34, y: 6 }
+      - { x: 10, y: 24 }
+      - { x: 22, y: 24 }
+      - { x: 34, y: 24 }
 
   retrieval:
     title: Retrieval
@@ -51,22 +56,28 @@ missions:
     title: Confrontation
     deployment:
       - side: a
-        rect: { x: 0, y: 0, width: 44, height: 5 }
+        rect: { x: 0, y: 0, width: 44, height: 6 }
       - side: b
-        rect: { x: 0, y: 25, width: 44, height: 5 }
+        rect: { x: 0, y: 24, width: 44, height: 6 }
     objectives:
+      - { x: 10, y: 5 }
       - { x: 22, y: 5 }
+      - { x: 34, y: 5 }
+      - { x: 10, y: 25 }
       - { x: 22, y: 25 }
+      - { x: 34, y: 25 }
 
   conquest:
     title: Conquest
     deployment:
       - side: a
-        rect: { x: 0, y: 0, width: 44, height: 5 }
+        rect: { x: 29, y: 0, width: 15, height: 11 }
       - side: b
-        rect: { x: 0, y: 25, width: 44, height: 5 }
+        rect: { x: 0, y: 19, width: 15, height: 11 }
     objectives:
-      - { x: 11, y: 10 }
-      - { x: 33, y: 10 }
-      - { x: 11, y: 20 }
-      - { x: 33, y: 20 }
+      - { x: 10, y: 6 }
+      - { x: 22, y: 6 }
+      - { x: 34, y: 6 }
+      - { x: 10, y: 24 }
+      - { x: 22, y: 24 }
+      - { x: 34, y: 24 }

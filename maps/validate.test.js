@@ -59,10 +59,16 @@ test('validateData rejects a deployment zone rect missing a field', () => {
   assert.throws(() => validateData(data), /rect must have numeric/i);
 });
 
-test('validateData rejects a deployment zone not flush against any table edge', () => {
+test('validateData accepts a deployment zone that fits inside the table without touching an edge', () => {
   const data = validData();
   data.missions['point-assault'].deployment[0].rect = { x: 10, y: 10, width: 5, height: 5 };
-  assert.throws(() => validateData(data), /point-assault.*invalid deployment zone/i);
+  assert.doesNotThrow(() => validateData(data));
+});
+
+test('validateData rejects a deployment zone that extends outside the table', () => {
+  const data = validData();
+  data.missions['point-assault'].deployment[0].rect = { x: 40, y: 0, width: 10, height: 5 };
+  assert.throws(() => validateData(data), /point-assault.*extends outside the table/i);
 });
 
 test('validateData rejects an objective with non-numeric coordinates', () => {

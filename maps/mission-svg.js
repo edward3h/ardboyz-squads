@@ -11,7 +11,7 @@ import {
 // measurements — units match the table/zone data ("inches" in name only).
 const MARGIN = 5;
 const DIMENSION_OFFSET = 1.5;
-const OBJECTIVE_RADIUS = 1;
+const OBJECTIVE_RADIUS = 0.5;
 
 export function renderMissionSvg(mission, table, colors) {
   const viewBox = computeViewBox(table, MARGIN);
@@ -46,7 +46,7 @@ export function renderMissionSvg(mission, table, colors) {
   }
 
   for (const objective of mission.objectives ?? []) {
-    parts.push(svgCircle({ cx: objective.x, cy: objective.y, r: OBJECTIVE_RADIUS }));
+    parts.push(svgCircle({ cx: objective.x, cy: objective.y, r: OBJECTIVE_RADIUS, fill: '#CCC' }));
   }
 
   return (
@@ -60,8 +60,14 @@ export function renderMissionSvg(mission, table, colors) {
 // table-height label on the right), left/right-edge zone labels go below
 // the table (mirroring the table-width label above) — so a zone's own
 // dimension line never overlaps the table's width/height dimension lines.
+// A zone that doesn't span the table's full width or height (e.g. a corner
+// zone) has no single "depth" to draw a dimension line for, so it's skipped.
 function deploymentDimension(rect, table) {
-  const { edge, depth } = deploymentZoneEdge(rect, table);
+  const result = deploymentZoneEdge(rect, table);
+  if (!result) {
+    return '';
+  }
+  const { edge, depth } = result;
   const label = `${depth}"`;
 
   if (edge === 'top' || edge === 'bottom') {
