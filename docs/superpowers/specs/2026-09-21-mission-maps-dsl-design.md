@@ -97,10 +97,10 @@ $ node maps/render.js $ failed {
 
 Generated SVGs land in `static/maps/<mission-key>.svg` and are committed to the repo (same convention as the existing `static/squads_layout_inkscape.svg` and `static/style.css`).
 
-`missions.md` gets an `<img>` tag under each mission heading, replacing "Maps _WIP_":
+`missions.md` gets a Markdown image under each mission heading, replacing "Maps _WIP_":
 
 ```markdown
-<img src="static/maps/point-assault.svg" alt="Point Assault map" />
+![Point Assault map](static/maps/point-assault.svg)
 ```
 
 ## Out of scope

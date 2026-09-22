@@ -27,7 +27,7 @@
 | `maps/mission-svg.js` | Combines `geometry.js` + `svg-template.js` into one full mission SVG document string |
 | `maps/render.js` | Entry point: reads `missions.yaml`, validates, loops missions, writes `static/maps/<key>.svg` |
 | `build.ab` | Modify: run `mise exec -- node maps/render.js` before the pandoc step |
-| `src/markdown/missions.md` | Modify: add an `<img>` under each mission heading, drop the "Maps _WIP_." line |
+| `src/markdown/missions.md` | Modify: add a Markdown image under each mission heading, drop the "Maps _WIP_." line |
 
 `geometry.js` and `validate.js` are pure (no file I/O, no SVG string concerns) so they're the ones worth unit testing in isolation — this is where bugs in the actual logic (wrong mm conversion, wrong edge detection, a validation gap) would hide. `svg-template.js` and `mission-svg.js` are string assembly with no interesting branching to unit test; they're verified by running the renderer and looking at the output, per the spec's testing section. `render.js` is I/O glue, also verified by running it.
 
@@ -886,7 +886,7 @@ git commit -m "Run mission map renderer as part of the build"
 **Files:**
 - Modify: `src/markdown/missions.md`
 
-- [ ] **Step 1: Remove the "Maps WIP" line and add an `<img>` per mission**
+- [ ] **Step 1: Remove the "Maps WIP" line and add a Markdown image per mission**
 
 Current top of file:
 
@@ -912,33 +912,33 @@ All missions use Reserves, Seize the Initiative.
 
 ## 1. Point Assault
 
-<img src="static/maps/point-assault.svg" alt="Point Assault map" />
+![Point Assault map](static/maps/point-assault.svg)
 ```
 
-Then add the matching `<img>` tag right after each of the other four mission headings, before their bullet lists:
+Then add the matching image right after each of the other four mission headings, before their bullet lists (Pandoc Markdown, not raw HTML — `![alt](src)`):
 
 ```markdown
 ## 2. Forward Push
 
-<img src="static/maps/forward-push.svg" alt="Forward Push map" />
+![Forward Push map](static/maps/forward-push.svg)
 ```
 
 ```markdown
 ## 3. Retrieval
 
-<img src="static/maps/retrieval.svg" alt="Retrieval map" />
+![Retrieval map](static/maps/retrieval.svg)
 ```
 
 ```markdown
 ## 4. Confrontation
 
-<img src="static/maps/confrontation.svg" alt="Confrontation map" />
+![Confrontation map](static/maps/confrontation.svg)
 ```
 
 ```markdown
 ## 5. Conquest
 
-<img src="static/maps/conquest.svg" alt="Conquest map" />
+![Conquest map](static/maps/conquest.svg)
 ```
 
 - [ ] **Step 2: Rebuild the site**
