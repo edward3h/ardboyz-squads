@@ -162,6 +162,13 @@ img {
     break-inside: avoid;
   }
 
+  /* Pandoc auto-generates a figcaption from the image alt text (e.g. "Point
+     Assault map"), which just repeats the heading and adds no information,
+     so don't print it. */
+  figcaption {
+    display: none;
+  }
+
   /* Each mission (heading, map, and scoring rules) is grouped into a single
      div so the whole thing moves to the next page together rather than the
      heading and map being split by a page break. */
