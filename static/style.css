@@ -120,3 +120,57 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* Printing: hide the on-screen TOC, force light colours regardless of the
+   viewer's OS theme, and avoid awkward breaks around headings/figures. */
+@media print {
+  :root {
+    --main-bg-color: #fff;
+    --main-color: #000;
+    --soft-bg-color: #eee;
+    --soft-color: #333;
+  }
+
+  @page {
+    margin: 2cm;
+  }
+
+  #TOC {
+    display: none;
+  }
+
+  body {
+    margin-left: 0;
+    max-width: none;
+    padding: 0;
+    font-size: 11pt;
+  }
+
+  .header h1 {
+    font-size: 2.25rem;
+  }
+
+  h1, h2, h3 {
+    break-after: avoid;
+  }
+
+  h1 + *, h2 + *, h3 + * {
+    break-before: avoid;
+  }
+
+  figure, img, blockquote {
+    break-inside: avoid;
+  }
+
+  /* Each mission (heading, map, and scoring rules) is grouped into a single
+     div so the whole thing moves to the next page together rather than the
+     heading and map being split by a page break. */
+  .mission {
+    break-inside: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

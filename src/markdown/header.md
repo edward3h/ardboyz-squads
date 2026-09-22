@@ -5,7 +5,7 @@
 
 :::
 
-_Version: draft 1_
+_Version: draft 2_
 
 A small scale format for Horus Heresy 3rd edition.
 
