@@ -70,6 +70,10 @@ body {
   }
 }
 
+#title-block-header {
+  display: none;
+}
+
 .header {
     /* max-width: 600px; */
     h1, h2 {
