@@ -11,7 +11,7 @@ import {
 // measurements — units match the table/zone data ("inches" in name only).
 const MARGIN = 5;
 const DIMENSION_OFFSET = 1.5;
-const OBJECTIVE_RADIUS = 3;
+const OBJECTIVE_RADIUS = 1;
 
 export function renderMissionSvg(mission, table, colors) {
   const viewBox = computeViewBox(table, MARGIN);
