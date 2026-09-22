@@ -11,6 +11,7 @@ import {
 // measurements — units match the table/zone data ("inches" in name only).
 const MARGIN = 5;
 const DIMENSION_OFFSET = 1.5;
+const ZONE_DIMENSION_INSET = 1.5;
 const OBJECTIVE_RADIUS = 0.5;
 
 export function renderMissionSvg(mission, table, colors) {
@@ -60,12 +61,10 @@ export function renderMissionSvg(mission, table, colors) {
 // table-height label on the right), left/right-edge zone labels go below
 // the table (mirroring the table-width label above) — so a zone's own
 // dimension line never overlaps the table's width/height dimension lines.
-// A zone that doesn't span the table's full width or height (e.g. a corner
-// zone) has no single "depth" to draw a dimension line for, so it's skipped.
 function deploymentDimension(rect, table) {
   const result = deploymentZoneEdge(rect, table);
   if (!result) {
-    return '';
+    return zoneWidthHeightDimensions(rect);
   }
   const { edge, depth } = result;
   const label = `${depth}"`;
@@ -85,4 +84,26 @@ function deploymentDimension(rect, table) {
     y: table.height + DIMENSION_OFFSET,
     label,
   });
+}
+
+// A zone that doesn't span the table's full width or height (e.g. a corner
+// zone) has no single edge-relative "depth" to measure, so instead it gets
+// its own width and height labelled with dimension lines drawn just inside
+// its top and left edges — independent of where the zone sits on the table,
+// so this never collides with anything outside the zone itself.
+function zoneWidthHeightDimensions(rect) {
+  const width = horizontalDimension({
+    x1: rect.x,
+    x2: rect.x + rect.width,
+    y: rect.y + ZONE_DIMENSION_INSET,
+    label: `${rect.width}"`,
+  });
+  const height = verticalDimension({
+    y1: rect.y,
+    y2: rect.y + rect.height,
+    x: rect.x + ZONE_DIMENSION_INSET,
+    label: `${rect.height}"`,
+    side: 'right',
+  });
+  return width + height;
 }
