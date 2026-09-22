@@ -9,8 +9,8 @@ import {
 
 // Visual proportions for a representative diagram, not real-world
 // measurements — units match the table/zone data ("inches" in name only).
-const MARGIN = 0.6;
-const DIMENSION_OFFSET = 0.3;
+const MARGIN = 5;
+const DIMENSION_OFFSET = 1.5;
 const OBJECTIVE_RADIUS = 3;
 
 export function renderMissionSvg(mission, table, colors) {
@@ -37,6 +37,7 @@ export function renderMissionSvg(mission, table, colors) {
       y2: table.height,
       x: table.width + DIMENSION_OFFSET,
       label: `${table.height}"`,
+      side: 'right',
     }),
   );
 
@@ -64,7 +65,13 @@ function deploymentDimension(rect, table) {
   const label = `${depth}"`;
 
   if (edge === 'top' || edge === 'bottom') {
-    return verticalDimension({ y1: rect.y, y2: rect.y + rect.height, x: -DIMENSION_OFFSET, label });
+    return verticalDimension({
+      y1: rect.y,
+      y2: rect.y + rect.height,
+      x: -DIMENSION_OFFSET,
+      label,
+      side: 'left',
+    });
   }
   return horizontalDimension({
     x1: rect.x,
