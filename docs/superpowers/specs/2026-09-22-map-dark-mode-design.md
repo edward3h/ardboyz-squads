@@ -71,8 +71,22 @@ values for every colour entry used by a mission.
 
 `maps/svg-template.js` gains a helper that emits the `<style>` block from a
 colours map (so it isn't hardcoded to sides `a`/`b`), and the existing
-shape/text helpers (`svgRect`, `svgCircle`, `horizontalDimension`,
-`verticalDimension`) take a CSS class name instead of a literal colour.
+shape/text helpers take CSS class names instead of literal colours:
+
+- `svgRect`/`svgCircle` take separate `fillClass` and `strokeClass` params
+  (replacing `fill`/`stroke`), emitted as `class="<fillClass> <strokeClass>"`
+  with `fill`/`stroke` set to `currentColor`/inherit via the class rules
+  (e.g. `.table-bg { fill: ...; }`, `.dim { stroke: ...; }` — a shape using
+  both gets both classes, e.g. `class="table-bg dim"`). Every shape stroke
+  uses `.dim`, since strokes are always the neutral dimension-line colour,
+  not a per-shape colour.
+- `horizontalDimension`/`verticalDimension` take a class for the line
+  (`.dim`) and pass it through to the private `dimensionText` helper as
+  well, which is updated to emit `class="dim-text"` on its `<text>` element
+  (it currently relies on SVG's default black fill, so this is a required
+  change even though `dimensionText` isn't called directly from
+  `mission-svg.js`).
+
 `maps/mission-svg.js` is updated to pass classes (`table-bg`, `dim`,
 `dim-text`, `objective`, `zone-<side>`) instead of hex strings.
 
@@ -96,7 +110,8 @@ through).
 ## Testing
 
 - `maps/validate.test.js`: update the fixture to the new `{light, dark}`
-  colour shape; add a case rejecting a colour entry missing `dark`.
+  colour shape; add cases rejecting a colour entry missing `light`, missing
+  `dark`, and with a non-string value for either.
 - Regenerate all 5 SVGs (`node maps/render.js`) and visually check them in
   both light and dark OS modes, and confirm nothing changes when printed
   (or previewed with print emulation) even under a dark OS theme.
