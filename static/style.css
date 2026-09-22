@@ -174,11 +174,11 @@ img {
     text-decoration: none;
   }
 
-  /* Printed links aren't clickable, so spell out the URL for the
-     References section rather than silently dropping it. */
-  #references + ul a[href]::after {
-    content: " (" attr(href) ")";
-    font-size: 0.85em;
-    word-break: break-all;
+  /* Printed links aren't clickable and the URLs are of no use on paper,
+     so drop the References section entirely rather than print dead text. */
+  hr:has(+ #references),
+  #references,
+  #references + ul {
+    display: none;
   }
 }
