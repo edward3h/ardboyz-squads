@@ -41,3 +41,37 @@ export function deploymentZoneEdge(rect, table) {
   }
   return null;
 }
+
+// Decides which objectives get a dimension measurement in each axis, to
+// keep the diagram uncluttered: a centered objective needs no measurement
+// in that axis (players can see it's centered), and when several
+// objectives are the same distance from their nearest edge in an axis,
+// only the first one needs it labelled — the rest can be read off it.
+// Returns { x: [...], y: [...] }, one entry per objective (in the same
+// order as `objectives`), each either null (no measurement needed) or
+// { distance, edge: 'start' | 'end' } (edge is which side — x/y 0 or the
+// table's width/height — the distance is measured from).
+export function objectiveMeasurements(objectives, table) {
+  return {
+    x: axisMeasurements(objectives.map((o) => o.x), table.width),
+    y: axisMeasurements(objectives.map((o) => o.y), table.height),
+  };
+}
+
+function axisMeasurements(positions, length) {
+  const seenDistances = new Set();
+  return positions.map((position) => {
+    if (position === length / 2) {
+      return null;
+    }
+    const distanceFromStart = position;
+    const distanceFromEnd = length - position;
+    const edge = distanceFromStart <= distanceFromEnd ? 'start' : 'end';
+    const distance = edge === 'start' ? distanceFromStart : distanceFromEnd;
+    if (seenDistances.has(distance)) {
+      return null;
+    }
+    seenDistances.add(distance);
+    return { distance, edge };
+  });
+}

@@ -1,4 +1,4 @@
-import { computeViewBox, deploymentZoneEdge } from './geometry.js';
+import { computeViewBox, deploymentZoneEdge, objectiveMeasurements } from './geometry.js';
 import {
   arrowMarkerDefs,
   svgRect,
@@ -13,6 +13,7 @@ const MARGIN = 5;
 const DIMENSION_OFFSET = 1.5;
 const ZONE_DIMENSION_INSET = 1.5;
 const OBJECTIVE_RADIUS = 0.5;
+const OBJECTIVE_DIMENSION_INSET = 1;
 
 export function renderMissionSvg(mission, table, colors) {
   const viewBox = computeViewBox(table, MARGIN);
@@ -46,9 +47,13 @@ export function renderMissionSvg(mission, table, colors) {
     parts.push(deploymentDimension(zone.rect, table));
   }
 
-  for (const objective of mission.objectives ?? []) {
+  const objectives = mission.objectives ?? [];
+  const measurements = objectiveMeasurements(objectives, table);
+
+  objectives.forEach((objective, i) => {
     parts.push(svgCircle({ cx: objective.x, cy: objective.y, r: OBJECTIVE_RADIUS, fill: '#CCC' }));
-  }
+    parts.push(objectiveDimension(objective, table, measurements.x[i], measurements.y[i]));
+  });
 
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" ` +
@@ -106,4 +111,33 @@ function zoneWidthHeightDimensions(rect) {
     side: 'right',
   });
   return width + height;
+}
+
+// Draws only the measurements objectiveMeasurements says are needed (null
+// means skip — either the objective is centered in that axis, or another
+// objective already shows the same distance). Lines are offset slightly
+// from the objective itself (above it for x, right of it for y) so they
+// don't run straight through the objective marker; the edge they measure
+// from doesn't change where the line is drawn, only which end of it the
+// distance is measured from.
+function objectiveDimension(objective, table, xMeasurement, yMeasurement) {
+  let svg = '';
+  if (xMeasurement) {
+    svg += horizontalDimension({
+      x1: xMeasurement.edge === 'start' ? 0 : table.width,
+      x2: objective.x,
+      y: objective.y - OBJECTIVE_DIMENSION_INSET,
+      label: `${xMeasurement.distance}"`,
+    });
+  }
+  if (yMeasurement) {
+    svg += verticalDimension({
+      y1: yMeasurement.edge === 'start' ? 0 : table.height,
+      y2: objective.y,
+      x: objective.x + OBJECTIVE_DIMENSION_INSET,
+      label: `${yMeasurement.distance}"`,
+      side: 'right',
+    });
+  }
+  return svg;
 }
