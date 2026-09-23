@@ -27,8 +27,15 @@ function validateColors(colors, missions) {
     }
   }
   for (const side of usedSides) {
-    if (!colors[side]) {
+    const entry = colors[side];
+    if (!entry) {
       throw new Error(`No color defined for side "${side}"`);
+    }
+    if (typeof entry.light !== 'string') {
+      throw new Error(`Color for side "${side}" must have a string "light" value`);
+    }
+    if (typeof entry.dark !== 'string') {
+      throw new Error(`Color for side "${side}" must have a string "dark" value`);
     }
   }
 }

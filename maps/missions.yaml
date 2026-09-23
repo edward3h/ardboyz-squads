@@ -7,8 +7,12 @@ table:
   height: 30 # inches
 
 colors:
-  a: "#afc6e9" # light blue, matches the original hand-drawn map
-  b: "#e9afaf" # light red, matches the original hand-drawn map
+  a:
+    light: "#afc6e9" # light blue, matches the original hand-drawn map
+    dark: "#3a4f70" # muted dark-mode counterpart
+  b:
+    light: "#e9afaf" # light red, matches the original hand-drawn map
+    dark: "#704a4a" # muted dark-mode counterpart
 
 missions:
   point-assault:

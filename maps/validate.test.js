@@ -5,7 +5,10 @@ import { validateData } from './validate.js';
 function validData() {
   return {
     table: { width: 44, height: 30 },
-    colors: { a: '#afc6e9', b: '#e9afaf' },
+    colors: {
+      a: { light: '#afc6e9', dark: '#3a4f70' },
+      b: { light: '#e9afaf', dark: '#704a4a' },
+    },
     missions: {
       'point-assault': {
         title: 'Point Assault',
@@ -39,6 +42,30 @@ test('validateData rejects a side used in missions with no color entry', () => {
   const data = validData();
   delete data.colors.b;
   assert.throws(() => validateData(data), /no color defined for side "b"/i);
+});
+
+test('validateData rejects a color entry missing "light"', () => {
+  const data = validData();
+  delete data.colors.b.light;
+  assert.throws(() => validateData(data), /color for side "b".*light/i);
+});
+
+test('validateData rejects a color entry missing "dark"', () => {
+  const data = validData();
+  delete data.colors.b.dark;
+  assert.throws(() => validateData(data), /color for side "b".*dark/i);
+});
+
+test('validateData rejects a color entry with a non-string dark value', () => {
+  const data = validData();
+  data.colors.b.dark = 123;
+  assert.throws(() => validateData(data), /color for side "b".*dark/i);
+});
+
+test('validateData rejects a color entry with a non-string light value', () => {
+  const data = validData();
+  data.colors.b.light = 123;
+  assert.throws(() => validateData(data), /color for side "b".*light/i);
 });
 
 test('validateData rejects a mission with no deployment zones', () => {
