@@ -1,6 +1,7 @@
 import { computeViewBox, deploymentZoneEdge, objectiveMeasurements } from './geometry.js';
 import {
   arrowMarkerDefs,
+  themeStyleBlock,
   svgRect,
   svgCircle,
   horizontalDimension,
@@ -17,12 +18,12 @@ const OBJECTIVE_DIMENSION_INSET = 1;
 
 export function renderMissionSvg(mission, table, colors) {
   const viewBox = computeViewBox(table, MARGIN);
-  const parts = [arrowMarkerDefs()];
+  const parts = [themeStyleBlock(colors), arrowMarkerDefs()];
 
-  parts.push(svgRect({ x: 0, y: 0, width: table.width, height: table.height, fill: '#ffffff' }));
+  parts.push(svgRect({ x: 0, y: 0, width: table.width, height: table.height, fillClass: 'table-bg' }));
 
   for (const zone of mission.deployment) {
-    parts.push(svgRect({ ...zone.rect, fill: colors[zone.side] }));
+    parts.push(svgRect({ ...zone.rect, fillClass: `zone-${zone.side}` }));
   }
 
   parts.push(
@@ -51,7 +52,7 @@ export function renderMissionSvg(mission, table, colors) {
   const measurements = objectiveMeasurements(objectives, table);
 
   objectives.forEach((objective, i) => {
-    parts.push(svgCircle({ cx: objective.x, cy: objective.y, r: OBJECTIVE_RADIUS, fill: '#CCC' }));
+    parts.push(svgCircle({ cx: objective.x, cy: objective.y, r: OBJECTIVE_RADIUS, fillClass: 'objective' }));
     parts.push(objectiveDimension(objective, table, measurements.x[i], measurements.y[i]));
   });
 
