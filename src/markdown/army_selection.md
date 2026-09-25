@@ -18,6 +18,10 @@ Any published units may be used, including Libers, Legendary downloads, Journals
 
 ## Factions
 
+### _Anathema Psykana_
+
+_If anyone is keen to play Sisters of Silence, discuss with Edward - we can figure out some house rules._
+
 ### Imperialis Militia
 
 To select two Provenances of War, use _Special Assignment_ to take a Force Commander.
@@ -34,6 +38,20 @@ These units may be taken with a starting size of 3 models:
 
 - Custodian Guard Sodality at 135 points.
 - Sentinel Guard Sodality at 120 points.
+
+_Otherwise Custodes have no Troops units within the 180 points limit._
+
+### Legiones Astartes
+
+May take **one** of these units with a value up to 200 points:
+
+- Cataphractii Terminator Squad
+- **or** Tartaros Terminator Squad
+
+This does not include any other variant Terminator units.
+Units that fit within the 180 points max are unaffected.
+
+_This exception exists because these units have appeared in starter sets and are common in new players' collections._
 
 ### Legiones Astartes - Blackshields
 

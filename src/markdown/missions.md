@@ -1,8 +1,16 @@
 # Missions
 
-Board size _TBD_.
+Board size 44x30 (Combat Patrol).
 
 All missions use Reserves, Seize the Initiative.
+
+## Mission Selection
+
+Any of the following is acceptable:
+
+- Edward will announce a preferred mission each week.
+- Players can agree on a mission between themselves.
+- Roll a d6 for the mission as numbered below. Re-roll a 6.
 
 ::: {.mission}
 ## 1. Point Assault
