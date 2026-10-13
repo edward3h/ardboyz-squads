@@ -5,7 +5,7 @@
 
 :::
 
-_Version: 1.0_
+_Version: 1.1_
 
 A small scale format for Horus Heresy 3rd edition.
 
