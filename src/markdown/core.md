@@ -14,7 +14,7 @@ Bonus victory points from the Line rule are capped at 3 per turn, per army.
 
 ### Vanguard
 
-- Vanguard points are scored if the unit destroyed or falling back was controlling an objective _at the start of the turn_.
+- The Vanguard (X) Special Rule is used as written in the Age of Darkness FAQ & Errata (v1.3, Special Rules Updates).
 - Models with the Vanguard rule have a Tactical Strength of 0 when determining who controls an objective.
 
 ## Psychic
